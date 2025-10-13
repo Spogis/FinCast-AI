@@ -39,7 +39,7 @@ Explorar a criação e aplicação de **agentes autônomos** com **IA generativa
 
 ## 📄 Licença
 
-Este projeto é colaborativo e está licenciado sob a licença MIT. Consulte o arquivo [LICENSE](./LICENSE) para mais informações.
+Este projeto é colaborativo e está licenciado sob a licença MIT. Consulte o arquivo [LICENSE](./LICENSE.txt) para mais informações.
 
 ---
 
