@@ -1,0 +1,812 @@
+{
+  "name": "FinCast AI",
+  "nodes": [
+    {
+      "parameters": {
+        "dataType": "binary",
+        "loader": "pdfLoader",
+        "options": {
+          "splitPages": false
+        }
+      },
+      "id": "e12e4360-50e6-421a-ba95-8474fb06448c",
+      "name": "Default Data Loader",
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "position": [
+        1088,
+        512
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "chunkSize": 3000,
+        "chunkOverlap": 300
+      },
+      "id": "244ed66f-1dde-4a56-90ec-cb31644f3d5a",
+      "name": "Token Splitter1",
+      "type": "@n8n/n8n-nodes-langchain.textSplitterTokenSplitter",
+      "position": [
+        1088,
+        640
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "operationMode": "documentLoader",
+        "options": {
+          "summarizationMethodAndPrompts": {
+            "values": {
+              "summarizationMethod": "refine",
+              "refinePrompt": "Your job is to produce a refined and comprehensive summary of a financial report.\nWe have provided an existing summary up to a certain point: \"{existing_answer}\"\nWe have the opportunity to refine this summary with new context provided below.\n------------\n\"{text}\"\n------------\n\nBased on the new context, improve and expand the original summary if needed.\nInclude any new financial figures, trends, or management insights.\nIf the new context is not relevant, return the original summary.\n\nREFINED TECHNICAL SUMMARY:\n",
+              "refineQuestionPrompt": "You are a financial analyst assistant. Your job is to write a detailed and technical summary of the following financial report excerpt.\n\n\"{text}\"\n\nFocus on key financial metrics, trends, strategic commentary, and quantitative data. Do not omit relevant information.\n\nTECHNICAL SUMMARY:\n"
+            }
+          }
+        }
+      },
+      "id": "e803a016-a9e7-4af2-bca2-05f9243196b2",
+      "name": "Summarization Chain",
+      "type": "@n8n/n8n-nodes-langchain.chainSummarization",
+      "position": [
+        944,
+        288
+      ],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "content": "# Sumariza PDF",
+        "height": 600,
+        "width": 860
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        624,
+        160
+      ],
+      "typeVersion": 1,
+      "id": "4f4e56e6-cf3e-46fa-a9b5-ccd78f3cdabc",
+      "name": "Sticky Note",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "content": "# Gera o Texto do Podcast\n",
+        "height": 500,
+        "width": 840,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1504,
+        272
+      ],
+      "typeVersion": 1,
+      "id": "05381eb2-2b90-483b-a8cc-b150175578f3",
+      "name": "Sticky Note1",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "operation": "extractDate",
+        "date": "={{ $now.setZone(\"America/Sao_Paulo\")}}",
+        "part": "hour",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        2720,
+        592
+      ],
+      "id": "4be3059c-4764-4d45-8f6b-61ae228ce5e5",
+      "name": "Date & Time"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "numberInputs": 3,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        3104,
+        352
+      ],
+      "id": "4577ada5-62a9-43b7-8460-5dacd09e8649",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        3360,
+        512
+      ],
+      "id": "14aeb3aa-2550-4514-80fc-2d6b8fa7758f",
+      "name": "Merge1"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={\n  \"cumprimento\": \"{{ $json.datePart >= 12 ? 'boa tarde!' : 'bom dia! ' }}\"\n}\n\n ",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2960,
+        592
+      ],
+      "id": "1996b74b-f082-4c0d-bbad-389f30974669",
+      "name": "Gera Cumprimento (Bom dia ou Boa tarde)"
+    },
+    {
+      "parameters": {
+        "content": "# Envia E-mail",
+        "height": 520,
+        "width": 1140,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2672,
+        240
+      ],
+      "typeVersion": 1,
+      "id": "0cb51dd7-da8f-405d-b9b3-48d401aaf304",
+      "name": "Sticky Note2",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "content": "# Gera Audio no ElevenLabs",
+        "height": 220,
+        "width": 580,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2208,
+        0
+      ],
+      "id": "e24795bc-ce99-49e9-b520-307dd6914dd4",
+      "name": "Sticky Note7",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "operation": "toText",
+        "sourceProperty": "response.output_text",
+        "options": {
+          "fileName": "AI_Resume.txt"
+        }
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        1280,
+        288
+      ],
+      "id": "3dd72c4e-8523-4b62-bbfa-7b23ad518676",
+      "name": "Convert to File"
+    },
+    {
+      "parameters": {
+        "content": "# Google Drive Backup",
+        "height": 360,
+        "width": 780,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2208,
+        -384
+      ],
+      "typeVersion": 1,
+      "id": "2411602a-7443-4c5c-b281-9bc32215b809",
+      "name": "Sticky Note3",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "operation": "text",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        1808,
+        432
+      ],
+      "id": "4fa7584c-194f-4850-8399-d38baa2978ff",
+      "name": "Extract from File"
+    },
+    {
+      "parameters": {
+        "content": "# Verifica E-mail e Inicia Trigger",
+        "height": 340,
+        "width": 1160,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        320,
+        -256
+      ],
+      "typeVersion": 1,
+      "id": "c5728132-9bf3-4244-b561-c7e783aab6e5",
+      "name": "Sticky Note4",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "fileId": {
+          "__rl": true,
+          "value": "1WLd5cPU2i42JfayqjuhSo1n2ngm6TE3m",
+          "mode": "list",
+          "cachedResultName": "Relatorio_B3.pdf",
+          "cachedResultUrl": "https://drive.google.com/file/d/1WLd5cPU2i42JfayqjuhSo1n2ngm6TE3m/view?usp=drivesdk"
+        },
+        "changeFileContent": true,
+        "inputDataFieldName": "=data0",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        2592,
+        -336
+      ],
+      "id": "cc262038-315b-44a6-b3de-8087bf993aac",
+      "name": "Update Relatorio_B3.pdf",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "Q7dRdbFzkryIRP0u",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "fileId": {
+          "__rl": true,
+          "value": "16o45MHut3H3O15Vt7N4nC8NcEVjMfO1-",
+          "mode": "list",
+          "cachedResultName": "AI_Resume.txt",
+          "cachedResultUrl": "https://drive.google.com/file/d/16o45MHut3H3O15Vt7N4nC8NcEVjMfO1-/view?usp=drivesdk"
+        },
+        "changeFileContent": true,
+        "inputDataFieldName": "=data",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        2320,
+        -240
+      ],
+      "id": "f76ddd9b-18a1-4969-9591-24e74d460fd5",
+      "name": "Update AI_Resume.txt",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "Q7dRdbFzkryIRP0u",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "fileId": {
+          "__rl": true,
+          "value": "1R3eBPSiMf3k2qYGBi-6B0fVbBoQ_PxO4",
+          "mode": "list",
+          "cachedResultName": "FinCast AI.mp3",
+          "cachedResultUrl": "https://drive.google.com/file/d/1R3eBPSiMf3k2qYGBi-6B0fVbBoQ_PxO4/view?usp=drivesdk"
+        },
+        "changeFileContent": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        2832,
+        -240
+      ],
+      "id": "2fe1532f-ab40-48d3-a9dc-7b54e5f2a335",
+      "name": "Update FinCast AI.mp3",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "Q7dRdbFzkryIRP0u",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Você é um analista financeiro de IA especializado em relatórios de mercado de capitais.\nSua tarefa é resumir um relatório financeiro de investidores da B3, fornecido em texto puro.\nO objetivo deste resumo é servir como input principal para outra IA que irá gerar um podcast financeiro detalhado para um público expert.\n\n**IMPORTANTE:** Seu texto deverá ser em portugues!\n**Linguagem:** Mantenha a linguagem técnica e precisa, adequada para um público financeiro.\n**Tamanho:** O resumo deve ter entre **500 a 800 palavras**, mas a prioridade é a completude das informações cruciais. Se for absolutamente necessário ultrapassar ligeiramente para incluir dados essenciais, faça-o.\n**Exclusividade do Input:** Baseie o resumo APENAS nas informações contidas no texto fornecido. Não adicione conhecimento externo.\n            \n            \n\n**[CONTEÚDO INTEGRAL DO RELATÓRIO DA B3 EM TEXTO PURO COMEÇA AQUI]**\n{{ $json.data }} \n**[CONTEÚDO INTEGRAL DO RELATÓRIO DA B3 EM TEXTO PURO TERMINA AQUI]**\n\n",
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        1968,
+        432
+      ],
+      "id": "18ad73ba-a8ba-4b15-8020-91f86bdcab1f",
+      "name": "PodCast Text"
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "16o45MHut3H3O15Vt7N4nC8NcEVjMfO1-",
+          "mode": "list",
+          "cachedResultName": "AI_Resume.txt",
+          "cachedResultUrl": "https://drive.google.com/file/d/16o45MHut3H3O15Vt7N4nC8NcEVjMfO1-/view?usp=drivesdk"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1648,
+        432
+      ],
+      "id": "6eb42ae5-0098-4093-9c8b-007d4f59368f",
+      "name": "Google Drive",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "Q7dRdbFzkryIRP0u",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "1R3eBPSiMf3k2qYGBi-6B0fVbBoQ_PxO4",
+          "mode": "list",
+          "cachedResultName": "FinCast AI.mp3",
+          "cachedResultUrl": "https://drive.google.com/file/d/1R3eBPSiMf3k2qYGBi-6B0fVbBoQ_PxO4/view?usp=drivesdk"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        3312,
+        288
+      ],
+      "id": "1bbb80d7-8a07-47a3-8b3c-93c8990094e5",
+      "name": "Google Drive1",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "Q7dRdbFzkryIRP0u",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.elevenlabs.io/v1/text-to-speech/98MIZkiCerNcXKcRNorL",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "xi-api-key",
+              "value": "=sk_49cf1fc81289278e9f20200a3eca0b5d3fff1209e62cdb88"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "text",
+              "value": "={{ $json.text }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "3ba4e3ad-b737-458f-9943-4a340c2eb9b6",
+      "name": "Generate voice",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        2544,
+        64
+      ],
+      "retryOnFail": false,
+      "typeVersion": 4.2
+    },
+    {
+      "parameters": {
+        "public": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        448,
+        -144
+      ],
+      "id": "1a4c4c06-95a5-4822-abcb-5aaeb9a8d862",
+      "name": "When chat message received",
+      "webhookId": "ea986872-3455-41c8-a877-127aea0a5dcf"
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "1WLd5cPU2i42JfayqjuhSo1n2ngm6TE3m",
+          "mode": "list",
+          "cachedResultName": "Relatorio_B3.pdf",
+          "cachedResultUrl": "https://drive.google.com/file/d/1WLd5cPU2i42JfayqjuhSo1n2ngm6TE3m/view?usp=drivesdk"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        688,
+        288
+      ],
+      "id": "617bccde-887b-4231-a910-66945641a5d5",
+      "name": "Download file",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "Q7dRdbFzkryIRP0u",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.email }}",
+        "subject": "Chegou seu FinCast AI Podcast!",
+        "message": "=<p>Olá {{ $json.name }}, {{ $json.cumprimento }}</p>\n\n<p>Muito obrigado pelo envio do seu relatório financeiro! Em anexo segue o seu <strong>FinCast AI</strong>, seu relatório financeiro em forma de áudio!</p>\n\n<p>Segue o texto com o resumo do seu relatório:</p>\n\n<hr />\n\n<p>{{ $('PodCast Text').item.json.text }}</p>\n\n<hr />\n\n<p>Um grande abraço, </p>\n\n<p>\n<strong>Prof. Nicolas Spogis, Ph.D.</strong><br>\nPhone/WhatsApp: +55 (19) 99844-0460<br>\nE-mail: <a href=\"mailto:nicolas.spogis@gmail.com\">nicolas.spogis@gmail.com</a> | <a href=\"mailto:nicolas.spogis@ai4tech.ai\">nicolas.spogis@ai4tech.ai</a><br>\nLinkTree: <a href=\"https://linktr.ee/Ai4Tech\" target=\"_blank\">https://linktr.ee/Ai4Tech</a>\n</p>\n",
+        "options": {
+          "appendAttribution": false,
+          "attachmentsUi": {
+            "attachmentsBinary": [
+              {
+                "property": "=data"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        3568,
+        448
+      ],
+      "id": "f9b51f2b-ab42-4095-93f0-e432e0363ea3",
+      "name": "Send a message",
+      "webhookId": "e2cf0301-8b84-467d-b21f-102a2dd7b28f",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "stGTovxm9buI8WXE",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "mistral:latest",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmOllama",
+      "typeVersion": 1,
+      "position": [
+        944,
+        512
+      ],
+      "id": "061ef515-ff21-4226-af46-2439ec4254d6",
+      "name": "Ollama Model",
+      "credentials": {
+        "ollamaApi": {
+          "id": "7A59W3JjrQqDypK9",
+          "name": "Ollama account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "mistral:latest",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmOllama",
+      "typeVersion": 1,
+      "position": [
+        2064,
+        608
+      ],
+      "id": "11e42b26-f5a3-4730-8f5e-6f3166081a56",
+      "name": "Ollama Model1",
+      "credentials": {
+        "ollamaApi": {
+          "id": "7A59W3JjrQqDypK9",
+          "name": "Ollama account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Token Splitter1": {
+      "ai_textSplitter": [
+        [
+          {
+            "node": "Default Data Loader",
+            "type": "ai_textSplitter",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Default Data Loader": {
+      "ai_document": [
+        [
+          {
+            "node": "Summarization Chain",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Summarization Chain": {
+      "main": [
+        [
+          {
+            "node": "Convert to File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Date & Time": {
+      "main": [
+        [
+          {
+            "node": "Gera Cumprimento (Bom dia ou Boa tarde)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge1": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gera Cumprimento (Bom dia ou Boa tarde)": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Convert to File": {
+      "main": [
+        [
+          {
+            "node": "Update AI_Resume.txt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File": {
+      "main": [
+        [
+          {
+            "node": "PodCast Text",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update AI_Resume.txt": {
+      "main": [
+        [
+          {
+            "node": "Google Drive",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update FinCast AI.mp3": {
+      "main": [
+        [
+          {
+            "node": "Google Drive1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Relatorio_B3.pdf": {
+      "main": [
+        [
+          {
+            "node": "Download file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "PodCast Text": {
+      "main": [
+        [
+          {
+            "node": "Date & Time",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Generate voice",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive": {
+      "main": [
+        [
+          {
+            "node": "Extract from File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive1": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate voice": {
+      "main": [
+        [
+          {
+            "node": "Update FinCast AI.mp3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "Update Relatorio_B3.pdf",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "Download file": {
+      "main": [
+        [
+          {
+            "node": "Summarization Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message": {
+      "main": [
+        []
+      ]
+    },
+    "Ollama Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Summarization Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ollama Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "PodCast Text",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "timezone": "America/Sao_Paulo",
+    "callerPolicy": "workflowsFromSameOwner",
+    "executionOrder": "v0"
+  },
+  "versionId": "54d3e2c0-6c88-44ad-96ac-836cb3b6b0a8",
+  "meta": {
+    "templateId": "1962",
+    "templateCredsSetupCompleted": true,
+    "instanceId": "b8641cfb69243bce31f5870be4192b2a99b9ec15e04e295a045ce2d329d82c25"
+  },
+  "id": "UXcFdbWD6WpcePSJ",
+  "tags": []
+}
