@@ -5,9 +5,7 @@
       "parameters": {
         "dataType": "binary",
         "loader": "pdfLoader",
-        "options": {
-          "splitPages": false
-        }
+        "options": {}
       },
       "id": "e12e4360-50e6-421a-ba95-8474fb06448c",
       "name": "Default Data Loader",
@@ -20,8 +18,8 @@
     },
     {
       "parameters": {
-        "chunkSize": 3000,
-        "chunkOverlap": 300
+        "chunkSize": 2000,
+        "chunkOverlap": 200
       },
       "id": "244ed66f-1dde-4a56-90ec-cb31644f3d5a",
       "name": "Token Splitter1",
@@ -39,8 +37,8 @@
           "summarizationMethodAndPrompts": {
             "values": {
               "summarizationMethod": "refine",
-              "refinePrompt": "Your job is to produce a refined and comprehensive summary of a financial report.\nWe have provided an existing summary up to a certain point: \"{existing_answer}\"\nWe have the opportunity to refine this summary with new context provided below.\n------------\n\"{text}\"\n------------\n\nBased on the new context, improve and expand the original summary if needed.\nInclude any new financial figures, trends, or management insights.\nIf the new context is not relevant, return the original summary.\n\nREFINED TECHNICAL SUMMARY:\n",
-              "refineQuestionPrompt": "You are a financial analyst assistant. Your job is to write a detailed and technical summary of the following financial report excerpt.\n\n\"{text}\"\n\nFocus on key financial metrics, trends, strategic commentary, and quantitative data. Do not omit relevant information.\n\nTECHNICAL SUMMARY:\n"
+              "refinePrompt": "Seu trabalho é produzir um resumo técnico refinado e abrangente de um relatório financeiro.\n\nNós fornecemos um resumo existente até certo ponto:\n\"{existing_answer}\"\n\nTemos agora a oportunidade de aprimorar esse resumo com o novo contexto fornecido abaixo:\n\"{text}\"\n\nCom base nesse novo contexto, melhore e expanda o resumo original, se necessário.\nInclua novos números financeiros, tendências ou percepções da gestão.\nSe o novo contexto não for relevante, mantenha o resumo original.\n\nRESUMO TÉCNICO REFINADO:",
+              "refineQuestionPrompt": "Você é um assistente de análise financeira. Seu trabalho é redigir um resumo detalhado e técnico do seguinte trecho de relatório financeiro:\n\n\"{text}\"\n\nConcentre-se nos principais indicadores financeiros, tendências, comentários estratégicos e dados quantitativos.\nNão omita informações relevantes.\n\nRESUMO TÉCNICO:"
             }
           }
         }
@@ -73,14 +71,14 @@
     {
       "parameters": {
         "content": "# Gera o Texto do Podcast\n",
-        "height": 500,
+        "height": 596,
         "width": 840,
         "color": 3
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
         1504,
-        272
+        160
       ],
       "typeVersion": 1,
       "id": "05381eb2-2b90-483b-a8cc-b150175578f3",
@@ -97,8 +95,8 @@
       "type": "n8n-nodes-base.dateTime",
       "typeVersion": 2,
       "position": [
-        2720,
-        592
+        3168,
+        608
       ],
       "id": "4be3059c-4764-4d45-8f6b-61ae228ce5e5",
       "name": "Date & Time"
@@ -113,8 +111,8 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.2,
       "position": [
-        3104,
-        352
+        3536,
+        336
       ],
       "id": "4577ada5-62a9-43b7-8460-5dacd09e8649",
       "name": "Merge"
@@ -128,8 +126,8 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.2,
       "position": [
-        3360,
-        512
+        3728,
+        240
       ],
       "id": "14aeb3aa-2550-4514-80fc-2d6b8fa7758f",
       "name": "Merge1"
@@ -143,8 +141,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        2960,
-        592
+        3376,
+        608
       ],
       "id": "1996b74b-f082-4c0d-bbad-389f30974669",
       "name": "Gera Cumprimento (Bom dia ou Boa tarde)"
@@ -152,14 +150,14 @@
     {
       "parameters": {
         "content": "# Envia E-mail",
-        "height": 520,
+        "height": 600,
         "width": 1140,
         "color": 5
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        2672,
-        240
+        3088,
+        176
       ],
       "typeVersion": 1,
       "id": "0cb51dd7-da8f-405d-b9b3-48d401aaf304",
@@ -176,8 +174,8 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        2208,
-        0
+        2384,
+        160
       ],
       "id": "e24795bc-ce99-49e9-b520-307dd6914dd4",
       "name": "Sticky Note7",
@@ -202,31 +200,14 @@
     },
     {
       "parameters": {
-        "content": "# Google Drive Backup",
-        "height": 360,
-        "width": 780,
-        "color": 6
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "position": [
-        2208,
-        -384
-      ],
-      "typeVersion": 1,
-      "id": "2411602a-7443-4c5c-b281-9bc32215b809",
-      "name": "Sticky Note3",
-      "disabled": true
-    },
-    {
-      "parameters": {
         "operation": "text",
         "options": {}
       },
       "type": "n8n-nodes-base.extractFromFile",
       "typeVersion": 1,
       "position": [
-        1808,
-        432
+        1712,
+        464
       ],
       "id": "4fa7584c-194f-4850-8399-d38baa2978ff",
       "name": "Extract from File"
@@ -235,13 +216,13 @@
       "parameters": {
         "content": "# Verifica E-mail e Inicia Trigger",
         "height": 340,
-        "width": 1160,
+        "width": 568,
         "color": 4
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        320,
-        -256
+        0,
+        272
       ],
       "typeVersion": 1,
       "id": "c5728132-9bf3-4244-b561-c7e783aab6e5",
@@ -250,170 +231,31 @@
     },
     {
       "parameters": {
-        "operation": "update",
-        "fileId": {
-          "__rl": true,
-          "value": "1WLd5cPU2i42JfayqjuhSo1n2ngm6TE3m",
-          "mode": "list",
-          "cachedResultName": "Relatorio_B3.pdf",
-          "cachedResultUrl": "https://drive.google.com/file/d/1WLd5cPU2i42JfayqjuhSo1n2ngm6TE3m/view?usp=drivesdk"
-        },
-        "changeFileContent": true,
-        "inputDataFieldName": "=data0",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.googleDrive",
-      "typeVersion": 3,
-      "position": [
-        2592,
-        -336
-      ],
-      "id": "cc262038-315b-44a6-b3de-8087bf993aac",
-      "name": "Update Relatorio_B3.pdf",
-      "credentials": {
-        "googleDriveOAuth2Api": {
-          "id": "Q7dRdbFzkryIRP0u",
-          "name": "Google Drive account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "operation": "update",
-        "fileId": {
-          "__rl": true,
-          "value": "16o45MHut3H3O15Vt7N4nC8NcEVjMfO1-",
-          "mode": "list",
-          "cachedResultName": "AI_Resume.txt",
-          "cachedResultUrl": "https://drive.google.com/file/d/16o45MHut3H3O15Vt7N4nC8NcEVjMfO1-/view?usp=drivesdk"
-        },
-        "changeFileContent": true,
-        "inputDataFieldName": "=data",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.googleDrive",
-      "typeVersion": 3,
-      "position": [
-        2320,
-        -240
-      ],
-      "id": "f76ddd9b-18a1-4969-9591-24e74d460fd5",
-      "name": "Update AI_Resume.txt",
-      "credentials": {
-        "googleDriveOAuth2Api": {
-          "id": "Q7dRdbFzkryIRP0u",
-          "name": "Google Drive account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "operation": "update",
-        "fileId": {
-          "__rl": true,
-          "value": "1R3eBPSiMf3k2qYGBi-6B0fVbBoQ_PxO4",
-          "mode": "list",
-          "cachedResultName": "FinCast AI.mp3",
-          "cachedResultUrl": "https://drive.google.com/file/d/1R3eBPSiMf3k2qYGBi-6B0fVbBoQ_PxO4/view?usp=drivesdk"
-        },
-        "changeFileContent": true,
-        "options": {}
-      },
-      "type": "n8n-nodes-base.googleDrive",
-      "typeVersion": 3,
-      "position": [
-        2832,
-        -240
-      ],
-      "id": "2fe1532f-ab40-48d3-a9dc-7b54e5f2a335",
-      "name": "Update FinCast AI.mp3",
-      "credentials": {
-        "googleDriveOAuth2Api": {
-          "id": "Q7dRdbFzkryIRP0u",
-          "name": "Google Drive account"
-        }
-      }
-    },
-    {
-      "parameters": {
         "promptType": "define",
-        "text": "=Você é um analista financeiro de IA especializado em relatórios de mercado de capitais.\nSua tarefa é resumir um relatório financeiro de investidores da B3, fornecido em texto puro.\nO objetivo deste resumo é servir como input principal para outra IA que irá gerar um podcast financeiro detalhado para um público expert.\n\n**IMPORTANTE:** Seu texto deverá ser em portugues!\n**Linguagem:** Mantenha a linguagem técnica e precisa, adequada para um público financeiro.\n**Tamanho:** O resumo deve ter entre **500 a 800 palavras**, mas a prioridade é a completude das informações cruciais. Se for absolutamente necessário ultrapassar ligeiramente para incluir dados essenciais, faça-o.\n**Exclusividade do Input:** Baseie o resumo APENAS nas informações contidas no texto fornecido. Não adicione conhecimento externo.\n            \n            \n\n**[CONTEÚDO INTEGRAL DO RELATÓRIO DA B3 EM TEXTO PURO COMEÇA AQUI]**\n{{ $json.data }} \n**[CONTEÚDO INTEGRAL DO RELATÓRIO DA B3 EM TEXTO PURO TERMINA AQUI]**\n\n",
+        "text": "=Você é um analista financeiro de IA especializado em relatórios de mercado de capitais.\nSua tarefa é resumir um relatório financeiro de investidores da B3, fornecido em texto puro.\nO objetivo deste resumo é servir como input principal para outra IA que irá gerar um podcast financeiro detalhado para um público expert.\n\n**IMPORTANTE:** Seu texto deverá ser em portugues!\n**Linguagem:** Mantenha a linguagem técnica e precisa, adequada para um público financeiro.\n**Tamanho:** O resumo deve ter entre **500 a 800 palavras**, mas a prioridade é a completude das informações cruciais. Se for absolutamente necessário ultrapassar ligeiramente para incluir dados essenciais, faça-o.\n**Exclusividade do Input:** Baseie o resumo APENAS nas informações contidas no texto fornecido. Não adicione conhecimento externo.\n            \n            \n\n**[CONTEÚDO INTEGRAL DO RELATÓRIO DA B3 EM TEXTO PURO COMEÇA AQUI]**\n{{ $json.data }} \n**[CONTEÚDO INTEGRAL DO RELATÓRIO DA B3 EM TEXTO PURO TERMINA AQUI]**",
         "batching": {}
       },
       "type": "@n8n/n8n-nodes-langchain.chainLlm",
       "typeVersion": 1.7,
       "position": [
-        1968,
-        432
+        1904,
+        464
       ],
       "id": "18ad73ba-a8ba-4b15-8020-91f86bdcab1f",
       "name": "PodCast Text"
     },
     {
       "parameters": {
-        "operation": "download",
-        "fileId": {
-          "__rl": true,
-          "value": "16o45MHut3H3O15Vt7N4nC8NcEVjMfO1-",
-          "mode": "list",
-          "cachedResultName": "AI_Resume.txt",
-          "cachedResultUrl": "https://drive.google.com/file/d/16o45MHut3H3O15Vt7N4nC8NcEVjMfO1-/view?usp=drivesdk"
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.googleDrive",
-      "typeVersion": 3,
-      "position": [
-        1648,
-        432
-      ],
-      "id": "6eb42ae5-0098-4093-9c8b-007d4f59368f",
-      "name": "Google Drive",
-      "credentials": {
-        "googleDriveOAuth2Api": {
-          "id": "Q7dRdbFzkryIRP0u",
-          "name": "Google Drive account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "operation": "download",
-        "fileId": {
-          "__rl": true,
-          "value": "1R3eBPSiMf3k2qYGBi-6B0fVbBoQ_PxO4",
-          "mode": "list",
-          "cachedResultName": "FinCast AI.mp3",
-          "cachedResultUrl": "https://drive.google.com/file/d/1R3eBPSiMf3k2qYGBi-6B0fVbBoQ_PxO4/view?usp=drivesdk"
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.googleDrive",
-      "typeVersion": 3,
-      "position": [
-        3312,
-        288
-      ],
-      "id": "1bbb80d7-8a07-47a3-8b3c-93c8990094e5",
-      "name": "Google Drive1",
-      "credentials": {
-        "googleDriveOAuth2Api": {
-          "id": "Q7dRdbFzkryIRP0u",
-          "name": "Google Drive account"
-        }
-      }
-    },
-    {
-      "parameters": {
         "method": "POST",
-        "url": "https://api.elevenlabs.io/v1/text-to-speech/98MIZkiCerNcXKcRNorL",
+        "url": "https://api.elevenlabs.io/v1/text-to-speech/21m00Tcm4TlvDq8ikWAM",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
             {
               "name": "xi-api-key",
               "value": "=sk_49cf1fc81289278e9f20200a3eca0b5d3fff1209e62cdb88"
-            }
+            },
+            {}
           ]
         },
         "sendBody": true,
@@ -431,8 +273,8 @@
       "name": "Generate voice",
       "type": "n8n-nodes-base.httpRequest",
       "position": [
-        2544,
-        64
+        2464,
+        224
       ],
       "retryOnFail": false,
       "typeVersion": 4.2
@@ -445,39 +287,12 @@
       "type": "@n8n/n8n-nodes-langchain.chatTrigger",
       "typeVersion": 1.1,
       "position": [
-        448,
-        -144
+        144,
+        400
       ],
       "id": "1a4c4c06-95a5-4822-abcb-5aaeb9a8d862",
       "name": "When chat message received",
       "webhookId": "ea986872-3455-41c8-a877-127aea0a5dcf"
-    },
-    {
-      "parameters": {
-        "operation": "download",
-        "fileId": {
-          "__rl": true,
-          "value": "1WLd5cPU2i42JfayqjuhSo1n2ngm6TE3m",
-          "mode": "list",
-          "cachedResultName": "Relatorio_B3.pdf",
-          "cachedResultUrl": "https://drive.google.com/file/d/1WLd5cPU2i42JfayqjuhSo1n2ngm6TE3m/view?usp=drivesdk"
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.googleDrive",
-      "typeVersion": 3,
-      "position": [
-        688,
-        288
-      ],
-      "id": "617bccde-887b-4231-a910-66945641a5d5",
-      "name": "Download file",
-      "credentials": {
-        "googleDriveOAuth2Api": {
-          "id": "Q7dRdbFzkryIRP0u",
-          "name": "Google Drive account"
-        }
-      }
     },
     {
       "parameters": {
@@ -498,8 +313,8 @@
       "type": "n8n-nodes-base.gmail",
       "typeVersion": 2.1,
       "position": [
-        3568,
-        448
+        3968,
+        240
       ],
       "id": "f9b51f2b-ab42-4095-93f0-e432e0363ea3",
       "name": "Send a message",
@@ -513,8 +328,10 @@
     },
     {
       "parameters": {
-        "model": "mistral:latest",
-        "options": {}
+        "model": "qwen2.5:32b-instruct",
+        "options": {
+          "temperature": 0.2
+        }
       },
       "type": "@n8n/n8n-nodes-langchain.lmOllama",
       "typeVersion": 1,
@@ -533,14 +350,16 @@
     },
     {
       "parameters": {
-        "model": "mistral:latest",
-        "options": {}
+        "model": "qwen2.5:32b-instruct",
+        "options": {
+          "temperature": 0.2
+        }
       },
       "type": "@n8n/n8n-nodes-langchain.lmOllama",
       "typeVersion": 1,
       "position": [
-        2064,
-        608
+        1904,
+        640
       ],
       "id": "11e42b26-f5a3-4730-8f5e-6f3166081a56",
       "name": "Ollama Model1",
@@ -550,9 +369,42 @@
           "name": "Ollama account"
         }
       }
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "\n$input.item.binary.data.fileName = 'FincastAI.mp3';\n$input.item.binary.data.fileExtension = 'mp3';\nreturn $input.item;"
+      },
+      "id": "242fe3d7-1e76-4012-b6f3-257ec2f6d766",
+      "name": "Rename file",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        2736,
+        224
+      ]
     }
   ],
-  "pinData": {},
+  "pinData": {
+    "When chat message received": [
+      {
+        "json": {
+          "name": "Nicolas Spogis",
+          "email": "nicolas.spogis@gmail.com",
+          "files": [
+            {
+              "fileName": "RELATÓRIO ITR TRIMESTRAL ALGAR.pdf",
+              "fileSize": "8.39 MB",
+              "fileType": "pdf",
+              "mimeType": "application/pdf",
+              "fileExtension": "pdf",
+              "binaryKey": "data0"
+            }
+          ]
+        }
+      }
+    ]
+  },
   "connections": {
     "Token Splitter1": {
       "ai_textSplitter": [
@@ -635,7 +487,7 @@
       "main": [
         [
           {
-            "node": "Update AI_Resume.txt",
+            "node": "Extract from File",
             "type": "main",
             "index": 0
           }
@@ -647,39 +499,6 @@
         [
           {
             "node": "PodCast Text",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Update AI_Resume.txt": {
-      "main": [
-        [
-          {
-            "node": "Google Drive",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Update FinCast AI.mp3": {
-      "main": [
-        [
-          {
-            "node": "Google Drive1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Update Relatorio_B3.pdf": {
-      "main": [
-        [
-          {
-            "node": "Download file",
             "type": "main",
             "index": 0
           }
@@ -707,33 +526,11 @@
         ]
       ]
     },
-    "Google Drive": {
-      "main": [
-        [
-          {
-            "node": "Extract from File",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Google Drive1": {
-      "main": [
-        [
-          {
-            "node": "Merge1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Generate voice": {
       "main": [
         [
           {
-            "node": "Update FinCast AI.mp3",
+            "node": "Rename file",
             "type": "main",
             "index": 0
           }
@@ -744,21 +541,10 @@
       "main": [
         [
           {
-            "node": "Update Relatorio_B3.pdf",
-            "type": "main",
-            "index": 0
-          },
-          {
             "node": "Merge",
             "type": "main",
             "index": 2
-          }
-        ]
-      ]
-    },
-    "Download file": {
-      "main": [
-        [
+          },
           {
             "node": "Summarization Chain",
             "type": "main",
@@ -793,15 +579,26 @@
           }
         ]
       ]
+    },
+    "Rename file": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
-  "active": false,
+  "active": true,
   "settings": {
     "timezone": "America/Sao_Paulo",
     "callerPolicy": "workflowsFromSameOwner",
     "executionOrder": "v0"
   },
-  "versionId": "54d3e2c0-6c88-44ad-96ac-836cb3b6b0a8",
+  "versionId": "bda354c3-e724-45f3-b970-b9cab6a6c2e7",
   "meta": {
     "templateId": "1962",
     "templateCredsSetupCompleted": true,
