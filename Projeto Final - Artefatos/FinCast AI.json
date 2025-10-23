@@ -1,0 +1,609 @@
+{
+  "name": "FinCast AI",
+  "nodes": [
+    {
+      "parameters": {
+        "dataType": "binary",
+        "loader": "pdfLoader",
+        "options": {}
+      },
+      "id": "e12e4360-50e6-421a-ba95-8474fb06448c",
+      "name": "Default Data Loader",
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "position": [
+        1088,
+        512
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "chunkSize": 2000,
+        "chunkOverlap": 200
+      },
+      "id": "244ed66f-1dde-4a56-90ec-cb31644f3d5a",
+      "name": "Token Splitter1",
+      "type": "@n8n/n8n-nodes-langchain.textSplitterTokenSplitter",
+      "position": [
+        1088,
+        640
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "operationMode": "documentLoader",
+        "options": {
+          "summarizationMethodAndPrompts": {
+            "values": {
+              "summarizationMethod": "refine",
+              "refinePrompt": "Seu trabalho é produzir um resumo técnico refinado e abrangente de um relatório financeiro.\n\nNós fornecemos um resumo existente até certo ponto:\n\"{existing_answer}\"\n\nTemos agora a oportunidade de aprimorar esse resumo com o novo contexto fornecido abaixo:\n\"{text}\"\n\nCom base nesse novo contexto, melhore e expanda o resumo original, se necessário.\nInclua novos números financeiros, tendências ou percepções da gestão.\nSe o novo contexto não for relevante, mantenha o resumo original.\n\nRESUMO TÉCNICO REFINADO:",
+              "refineQuestionPrompt": "Você é um assistente de análise financeira. Seu trabalho é redigir um resumo detalhado e técnico do seguinte trecho de relatório financeiro:\n\n\"{text}\"\n\nConcentre-se nos principais indicadores financeiros, tendências, comentários estratégicos e dados quantitativos.\nNão omita informações relevantes.\n\nRESUMO TÉCNICO:"
+            }
+          }
+        }
+      },
+      "id": "e803a016-a9e7-4af2-bca2-05f9243196b2",
+      "name": "Summarization Chain",
+      "type": "@n8n/n8n-nodes-langchain.chainSummarization",
+      "position": [
+        944,
+        288
+      ],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "content": "# Sumariza PDF",
+        "height": 600,
+        "width": 860
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        624,
+        160
+      ],
+      "typeVersion": 1,
+      "id": "4f4e56e6-cf3e-46fa-a9b5-ccd78f3cdabc",
+      "name": "Sticky Note",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "content": "# Gera o Texto do Podcast\n",
+        "height": 596,
+        "width": 840,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1504,
+        160
+      ],
+      "typeVersion": 1,
+      "id": "05381eb2-2b90-483b-a8cc-b150175578f3",
+      "name": "Sticky Note1",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "operation": "extractDate",
+        "date": "={{ $now.setZone(\"America/Sao_Paulo\")}}",
+        "part": "hour",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        3168,
+        608
+      ],
+      "id": "4be3059c-4764-4d45-8f6b-61ae228ce5e5",
+      "name": "Date & Time"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "numberInputs": 3,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        3536,
+        336
+      ],
+      "id": "4577ada5-62a9-43b7-8460-5dacd09e8649",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        3728,
+        240
+      ],
+      "id": "14aeb3aa-2550-4514-80fc-2d6b8fa7758f",
+      "name": "Merge1"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={\n  \"cumprimento\": \"{{ $json.datePart >= 12 ? 'boa tarde!' : 'bom dia! ' }}\"\n}\n\n ",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3376,
+        608
+      ],
+      "id": "1996b74b-f082-4c0d-bbad-389f30974669",
+      "name": "Gera Cumprimento (Bom dia ou Boa tarde)"
+    },
+    {
+      "parameters": {
+        "content": "# Envia E-mail",
+        "height": 600,
+        "width": 1140,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        3088,
+        176
+      ],
+      "typeVersion": 1,
+      "id": "0cb51dd7-da8f-405d-b9b3-48d401aaf304",
+      "name": "Sticky Note2",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "content": "# Gera Audio no ElevenLabs",
+        "height": 220,
+        "width": 580,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2384,
+        160
+      ],
+      "id": "e24795bc-ce99-49e9-b520-307dd6914dd4",
+      "name": "Sticky Note7",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "operation": "toText",
+        "sourceProperty": "response.output_text",
+        "options": {
+          "fileName": "AI_Resume.txt"
+        }
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        1280,
+        288
+      ],
+      "id": "3dd72c4e-8523-4b62-bbfa-7b23ad518676",
+      "name": "Convert to File"
+    },
+    {
+      "parameters": {
+        "operation": "text",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        1712,
+        464
+      ],
+      "id": "4fa7584c-194f-4850-8399-d38baa2978ff",
+      "name": "Extract from File"
+    },
+    {
+      "parameters": {
+        "content": "# Verifica E-mail e Inicia Trigger",
+        "height": 340,
+        "width": 568,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        0,
+        272
+      ],
+      "typeVersion": 1,
+      "id": "c5728132-9bf3-4244-b561-c7e783aab6e5",
+      "name": "Sticky Note4",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Você é um analista financeiro de IA especializado em relatórios de mercado de capitais.\nSua tarefa é resumir um relatório financeiro de investidores da B3, fornecido em texto puro.\nO objetivo deste resumo é servir como input principal para outra IA que irá gerar um podcast financeiro detalhado para um público expert.\n\n**IMPORTANTE:** Seu texto deverá ser em portugues!\n**Linguagem:** Mantenha a linguagem técnica e precisa, adequada para um público financeiro.\n**Tamanho:** O resumo deve ter entre **500 a 800 palavras**, mas a prioridade é a completude das informações cruciais. Se for absolutamente necessário ultrapassar ligeiramente para incluir dados essenciais, faça-o.\n**Exclusividade do Input:** Baseie o resumo APENAS nas informações contidas no texto fornecido. Não adicione conhecimento externo.\n            \n            \n\n**[CONTEÚDO INTEGRAL DO RELATÓRIO DA B3 EM TEXTO PURO COMEÇA AQUI]**\n{{ $json.data }} \n**[CONTEÚDO INTEGRAL DO RELATÓRIO DA B3 EM TEXTO PURO TERMINA AQUI]**",
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        1904,
+        464
+      ],
+      "id": "18ad73ba-a8ba-4b15-8020-91f86bdcab1f",
+      "name": "PodCast Text"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.elevenlabs.io/v1/text-to-speech/21m00Tcm4TlvDq8ikWAM",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "xi-api-key",
+              "value": "=sk_49cf1fc81289278e9f20200a3eca0b5d3fff1209e62cdb88"
+            },
+            {}
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "text",
+              "value": "={{ $json.text }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "3ba4e3ad-b737-458f-9943-4a340c2eb9b6",
+      "name": "Generate voice",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        2464,
+        224
+      ],
+      "retryOnFail": false,
+      "typeVersion": 4.2
+    },
+    {
+      "parameters": {
+        "public": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        144,
+        400
+      ],
+      "id": "1a4c4c06-95a5-4822-abcb-5aaeb9a8d862",
+      "name": "When chat message received",
+      "webhookId": "ea986872-3455-41c8-a877-127aea0a5dcf"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.email }}",
+        "subject": "Chegou seu FinCast AI Podcast!",
+        "message": "=<p>Olá {{ $json.name }}, {{ $json.cumprimento }}</p>\n\n<p>Muito obrigado pelo envio do seu relatório financeiro! Em anexo segue o seu <strong>FinCast AI</strong>, seu relatório financeiro em forma de áudio!</p>\n\n<p>Segue o texto com o resumo do seu relatório:</p>\n\n<hr />\n\n<p>{{ $('PodCast Text').item.json.text }}</p>\n\n<hr />\n\n<p>Um grande abraço, </p>\n\n<p>\n<strong>Prof. Nicolas Spogis, Ph.D.</strong><br>\nPhone/WhatsApp: +55 (19) 99844-0460<br>\nE-mail: <a href=\"mailto:nicolas.spogis@gmail.com\">nicolas.spogis@gmail.com</a> | <a href=\"mailto:nicolas.spogis@ai4tech.ai\">nicolas.spogis@ai4tech.ai</a><br>\nLinkTree: <a href=\"https://linktr.ee/Ai4Tech\" target=\"_blank\">https://linktr.ee/Ai4Tech</a>\n</p>\n",
+        "options": {
+          "appendAttribution": false,
+          "attachmentsUi": {
+            "attachmentsBinary": [
+              {
+                "property": "=data"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        3968,
+        240
+      ],
+      "id": "f9b51f2b-ab42-4095-93f0-e432e0363ea3",
+      "name": "Send a message",
+      "webhookId": "e2cf0301-8b84-467d-b21f-102a2dd7b28f",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "stGTovxm9buI8WXE",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "qwen2.5:32b-instruct",
+        "options": {
+          "temperature": 0.2
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmOllama",
+      "typeVersion": 1,
+      "position": [
+        944,
+        512
+      ],
+      "id": "061ef515-ff21-4226-af46-2439ec4254d6",
+      "name": "Ollama Model",
+      "credentials": {
+        "ollamaApi": {
+          "id": "7A59W3JjrQqDypK9",
+          "name": "Ollama account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "qwen2.5:32b-instruct",
+        "options": {
+          "temperature": 0.2
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmOllama",
+      "typeVersion": 1,
+      "position": [
+        1904,
+        640
+      ],
+      "id": "11e42b26-f5a3-4730-8f5e-6f3166081a56",
+      "name": "Ollama Model1",
+      "credentials": {
+        "ollamaApi": {
+          "id": "7A59W3JjrQqDypK9",
+          "name": "Ollama account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "\n$input.item.binary.data.fileName = 'FincastAI.mp3';\n$input.item.binary.data.fileExtension = 'mp3';\nreturn $input.item;"
+      },
+      "id": "242fe3d7-1e76-4012-b6f3-257ec2f6d766",
+      "name": "Rename file",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        2736,
+        224
+      ]
+    }
+  ],
+  "pinData": {
+    "When chat message received": [
+      {
+        "json": {
+          "name": "Nicolas Spogis",
+          "email": "nicolas.spogis@gmail.com",
+          "files": [
+            {
+              "fileName": "RELATÓRIO ITR TRIMESTRAL ALGAR.pdf",
+              "fileSize": "8.39 MB",
+              "fileType": "pdf",
+              "mimeType": "application/pdf",
+              "fileExtension": "pdf",
+              "binaryKey": "data0"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Token Splitter1": {
+      "ai_textSplitter": [
+        [
+          {
+            "node": "Default Data Loader",
+            "type": "ai_textSplitter",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Default Data Loader": {
+      "ai_document": [
+        [
+          {
+            "node": "Summarization Chain",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Summarization Chain": {
+      "main": [
+        [
+          {
+            "node": "Convert to File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Date & Time": {
+      "main": [
+        [
+          {
+            "node": "Gera Cumprimento (Bom dia ou Boa tarde)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge1": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gera Cumprimento (Bom dia ou Boa tarde)": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Convert to File": {
+      "main": [
+        [
+          {
+            "node": "Extract from File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File": {
+      "main": [
+        [
+          {
+            "node": "PodCast Text",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "PodCast Text": {
+      "main": [
+        [
+          {
+            "node": "Date & Time",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Generate voice",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate voice": {
+      "main": [
+        [
+          {
+            "node": "Rename file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 2
+          },
+          {
+            "node": "Summarization Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message": {
+      "main": [
+        []
+      ]
+    },
+    "Ollama Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Summarization Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ollama Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "PodCast Text",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Rename file": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "timezone": "America/Sao_Paulo",
+    "callerPolicy": "workflowsFromSameOwner",
+    "executionOrder": "v0"
+  },
+  "versionId": "bda354c3-e724-45f3-b970-b9cab6a6c2e7",
+  "meta": {
+    "templateId": "1962",
+    "templateCredsSetupCompleted": true,
+    "instanceId": "b8641cfb69243bce31f5870be4192b2a99b9ec15e04e295a045ce2d329d82c25"
+  },
+  "id": "UXcFdbWD6WpcePSJ",
+  "tags": []
+}
