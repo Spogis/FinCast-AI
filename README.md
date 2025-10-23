@@ -7,6 +7,15 @@ Essa integração entre **IA generativa, automação e acessibilidade** visa tra
 
 ---
 
+## 🎥 Demonstração em Vídeo (Clique na Imagem para abrir o video)
+
+[![FinCast AI - Inteligência Financeira que se ouve](https://img.youtube.com/vi/09v2zG_U7aY/maxresdefault.jpg)](https://youtu.be/09v2zG_U7aY)
+
+> O vídeo apresenta o funcionamento completo do **FinCast AI**, desde a leitura dos relatórios financeiros até a geração automatizada dos podcasts via IA.
+
+
+---
+
 ## 👥 Equipe
 
 | LinkedIn                                                                          |
