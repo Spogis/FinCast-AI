@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FinCast AI</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #003366, #336699);
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      background-color: #ffffff10;
+      padding: 30px 40px;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    h2 {
+      margin-bottom: 25px;
+      font-size: 28px;
+      color: #fff;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+      text-align: left;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="file"] {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    input[type="file"] {
+      background-color: #fff;
+      color: #000;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #00cc66;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: not-allowed;
+      transition: 0.3s ease;
+      opacity: 0.5;
+    }
+
+    button.enabled {
+      cursor: pointer;
+      opacity: 1;
+    }
+
+    .error {
+      color: #ffcccb;
+      font-size: 13px;
+      margin-top: -15px;
+      margin-bottom: 15px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>FinCast AI</h2>
+    <form id="fincast-form" enctype="multipart/form-data">
+      <label for="name">Nome:</label>
+      <input type="text" id="name" name="name" required />
+
+      <label for="email">E-mail:</label>
+      <input type="email" id="email" name="email" required />
+      <div class="error" id="email-error">Por favor, insira um e-mail válido.</div>
+
+      <label for="data">Upload de PDF:</label>
+      <input type="file" id="file" name="data" accept="application/pdf" required />
+      <div class="error" id="file-error">Somente arquivos PDF são aceitos.</div>
+
+      <button id="send-btn" type="submit" disabled>Enviar</button>
+    </form>
+  </div>
+
+  <script>
+    const form = document.getElementById('fincast-form');
+    const sendBtn = document.getElementById('send-btn');
+    const nameInput = document.getElementById('name');
+    const emailInput = document.getElementById('email');
+    const fileInput = document.getElementById('file');
+    const emailError = document.getElementById('email-error');
+    const fileError = document.getElementById('file-error');
+
+    function validateForm() {
+      const nameFilled = nameInput.value.trim() !== '';
+      const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailInput.value);
+      const fileSelected = fileInput.files.length > 0;
+      const isPdf = fileSelected && fileInput.files[0].type === 'application/pdf';
+
+      emailError.style.display = emailValid || emailInput.value === '' ? 'none' : 'block';
+      fileError.style.display = isPdf || !fileSelected ? 'none' : 'block';
+
+      const formValid = nameFilled && emailValid && fileSelected && isPdf;
+
+      sendBtn.disabled = !formValid;
+      sendBtn.classList.toggle('enabled', formValid);
+      sendBtn.style.cursor = formValid ? 'pointer' : 'not-allowed';
+    }
+
+    nameInput.addEventListener('input', validateForm);
+    emailInput.addEventListener('input', validateForm);
+    fileInput.addEventListener('change', validateForm);
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      // Muda a interface imediatamente
+      document.querySelector('.container').innerHTML = `
+        <h2>Obrigado!</h2>
+        <p style="font-size: 18px; color: #fff;">
+          Seus dados foram enviados com sucesso.<br><br>
+          Em breve, você receberá seu Podcast atualizado no seu e-mail.
+        </p>
+      `;
+
+      // Envia o formulário em background
+      const formData = new FormData(form);
+
+      fetch('https://proven-ocelot-formally.ngrok-free.app/webhook/ea986872-3455-41c8-a877-127aea0a5dcf/chat', {
+        method: 'POST',
+        body: formData,
+      }).catch(() => {
+        console.warn('Erro ao conectar com o servidor — o usuário já foi avisado.');
+      });
+    });
+  </script>
+</body>
+</html>
